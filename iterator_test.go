@@ -1,6 +1,7 @@
 package kivik
 
 import (
+	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -146,7 +147,7 @@ func TestIteratorScan(t *testing.T) {
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-			err := scan(test.dst, test.input)
+			err := scan(test.dst, bytes.NewReader(test.input))
 			testy.StatusError(t, test.err, test.status, err)
 			if d := diff.Interface(test.expected, test.dst); d != nil {
 				t.Error(d)

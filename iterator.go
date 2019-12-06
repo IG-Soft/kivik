@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"io"
+	"io/ioutil"
 	"net/http"
 	"reflect"
 	"sync"
@@ -127,27 +128,31 @@ func (i *iter) Err() error {
 	return i.lasterr
 }
 
-func scan(dest interface{}, val json.RawMessage) error {
+func scan(dest interface{}, val io.Reader) error {
 	if reflect.TypeOf(dest).Kind() != reflect.Ptr {
 		return errNonPtr
 	}
-	switch d := dest.(type) {
-	case *[]byte:
-		if d == nil {
-			return errNilPtr
+	switch dest.(type) {
+	case *[]byte, *json.RawMessage:
+		tgt, err := ioutil.ReadAll(val)
+		if err != nil {
+			return err
 		}
-		tgt := make([]byte, len(val))
-		copy(tgt, val)
-		*d = tgt
-		return nil
-	case *json.RawMessage:
-		if d == nil {
-			return errNilPtr
+		switch d := dest.(type) {
+		case *[]byte:
+			if d == nil {
+				return errNilPtr
+			}
+			*d = tgt
+		case *json.RawMessage:
+			if d == nil {
+				return errNilPtr
+			}
+			*d = tgt
 		}
-		*d = val
 		return nil
 	}
-	if err := json.Unmarshal(val, dest); err != nil {
+	if err := json.NewDecoder(val).Decode(dest); err != nil {
 		return err
 	}
 	return nil

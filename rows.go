@@ -1,6 +1,7 @@
 package kivik
 
 import (
+	"bytes"
 	"context"
 	"net/http"
 
@@ -71,10 +72,11 @@ func (r *Rows) ScanValue(dest interface{}) error {
 		return err
 	}
 	defer runlock()
-	if err := r.curVal.(*driver.Row).Error; err != nil {
+	row := normalizeRow(r.curVal)
+	if err := row.Error; err != nil {
 		return err
 	}
-	return scan(dest, r.curVal.(*driver.Row).Value)
+	return scan(dest, row.Value)
 }
 
 // ScanDoc works the same as ScanValue, but on the doc field of the result. It
@@ -85,14 +87,34 @@ func (r *Rows) ScanDoc(dest interface{}) error {
 		return err
 	}
 	defer runlock()
-	if err := r.curVal.(*driver.Row).Error; err != nil {
+	row := normalizeRow(r.curVal)
+	if err := row.Error; err != nil {
 		return err
 	}
-	doc := r.curVal.(*driver.Row).Doc
+	doc := row.Doc
 	if doc == nil {
 		return &Error{HTTPStatus: http.StatusBadRequest, Message: "kivik: doc is nil; does the query include docs?"}
 	}
 	return scan(dest, doc)
+}
+
+func normalizeRow(r interface{}) *driver.Row {
+	if row, ok := r.(*driver.Row); ok {
+		return row
+	}
+	oldRow := r.(*driver.OldRow)
+	row := &driver.Row{
+		ID:    oldRow.ID,
+		Key:   oldRow.Key,
+		Error: oldRow.Error,
+	}
+	if len(oldRow.Value) > 0 {
+		row.Value = bytes.NewReader(oldRow.Value)
+	}
+	if len(oldRow.Doc) > 0 {
+		row.Doc = bytes.NewReader(oldRow.Doc)
+	}
+	return row
 }
 
 // ScanKey works the same as ScanValue, but on the key field of the result. For
@@ -102,11 +124,12 @@ func (r *Rows) ScanKey(dest interface{}) error {
 	if err != nil {
 		return err
 	}
-	if err := r.curVal.(*driver.Row).Error; err != nil {
+	row := normalizeRow(r.curVal)
+	if err := row.Error; err != nil {
 		return err
 	}
 	defer runlock()
-	return scan(dest, r.curVal.(*driver.Row).Key)
+	return scan(dest, bytes.NewReader(row.Key))
 }
 
 // ID returns the ID of the current result.
@@ -116,7 +139,8 @@ func (r *Rows) ID() string {
 		return ""
 	}
 	defer runlock()
-	return r.curVal.(*driver.Row).ID
+	row := normalizeRow(r.curVal)
+	return row.ID
 }
 
 // Key returns the Key of the current result as a raw JSON string. For
@@ -127,7 +151,8 @@ func (r *Rows) Key() string {
 		return ""
 	}
 	defer runlock()
-	return string(r.curVal.(*driver.Row).Key)
+	row := normalizeRow(r.curVal)
+	return string(row.Key)
 }
 
 // Offset returns the starting offset where the result set started. It is

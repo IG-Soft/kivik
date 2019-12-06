@@ -1,6 +1,7 @@
 package kivik
 
 import (
+	"bytes"
 	"context"
 
 	"github.com/go-kivik/kivik/driver"
@@ -70,7 +71,7 @@ func (c *Changes) ScanDoc(dest interface{}) error {
 		return err
 	}
 	defer runlock()
-	return scan(dest, c.curVal.(*driver.Change).Doc)
+	return scan(dest, bytes.NewReader(c.curVal.(*driver.Change).Doc))
 }
 
 // Changes returns an iterator over the real-time changes feed. The feed remains
