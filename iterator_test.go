@@ -81,7 +81,7 @@ func TestIteratorScan(t *testing.T) {
 			name:   "non-pointer",
 			dst:    map[string]string{},
 			input:  []byte(`{"foo":123.4}`),
-			status: http.StatusBadRequest,
+			status: http.StatusInternalServerError,
 			err:    "kivik: destination is not a pointer",
 		},
 		func() Test {
@@ -110,8 +110,8 @@ func TestIteratorScan(t *testing.T) {
 				name:   "nil *json.RawMessage",
 				dst:    dst,
 				input:  []byte(`{"foo":123.4}`),
-				status: http.StatusBadRequest,
-				err:    "kivik: destination pointer is nil",
+				status: http.StatusInternalServerError,
+				err:    "json: Unmarshal(nil *json.RawMessage)",
 			}
 		}(),
 		func() Test {
@@ -120,7 +120,7 @@ func TestIteratorScan(t *testing.T) {
 				name:   "nil *[]byte",
 				dst:    dst,
 				input:  []byte(`{"foo":123.4}`),
-				status: http.StatusBadRequest,
+				status: http.StatusInternalServerError,
 				err:    "kivik: destination pointer is nil",
 			}
 		}(),

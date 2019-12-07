@@ -50,8 +50,8 @@ func newRows(ctx context.Context, rowsi driver.Rows) *Rows {
 }
 
 var (
-	errNilPtr = &Error{HTTPStatus: http.StatusBadRequest, Message: "kivik: destination pointer is nil"}
-	errNonPtr = &Error{HTTPStatus: http.StatusBadRequest, Message: "kivik: destination is not a pointer"}
+	errNilPtr = &Error{HTTPStatus: http.StatusInternalServerError, Message: "kivik: destination pointer is nil"}
+	errNonPtr = &Error{HTTPStatus: http.StatusInternalServerError, Message: "kivik: destination is not a pointer"}
 )
 
 // ScanValue copies the data from the result value into the value pointed at by
