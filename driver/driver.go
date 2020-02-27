@@ -181,6 +181,10 @@ type DB interface {
 	// ddoc will be the design doc name without the '_design/' previx.
 	// view will be the view name without the '_view/' prefix.
 	Query(ctx context.Context, ddoc, view string, options map[string]interface{}) (Rows, error)
+	// Update performs a post against an update, subject to the options provided.
+	// ddoc will be the design doc name without the '_design/' prefix.
+	// update will be the update function name without the '_update/' prefix.
+	Update(ctx context.Context, ddoc, update string, options map[string]interface{}) (Rows, error)
 }
 
 // Document represents a single document returned by Get

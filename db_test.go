@@ -286,6 +286,74 @@ func TestQuery(t *testing.T) {
 	}
 }
 
+func TestUpdate(t *testing.T) {
+	tests := []struct {
+		name         string
+		db           *DB
+		ddoc, update string
+		options      Options
+		expected     *Rows
+		status       int
+		err          string
+	}{
+		{
+			name: "db error",
+			db: &DB{
+				driverDB: &mock.DB{
+					UpdateFunc: func(_ context.Context, ddoc, update string, opts map[string]interface{}) (driver.Rows, error) {
+						return nil, errors.New("db error")
+					},
+				},
+			},
+			status: http.StatusInternalServerError,
+			err:    "db error",
+		},
+		{
+			name: "success",
+			db: &DB{
+				driverDB: &mock.DB{
+					UpdateFunc: func(_ context.Context, ddoc, update string, opts map[string]interface{}) (driver.Rows, error) {
+						expectedDdoc := "foo"
+						expectedUpdate := "bar" // nolint: goconst
+						if ddoc != expectedDdoc {
+							return nil, fmt.Errorf("Unexpected ddoc: %s", ddoc)
+						}
+						if update != expectedUpdate {
+							return nil, fmt.Errorf("Unexpected update: %s", update)
+						}
+						if d := diff.Interface(testOptions, opts); d != nil {
+							return nil, fmt.Errorf("Unexpected options: %s", d)
+						}
+						return &mock.Rows{ID: "a"}, nil
+					},
+				},
+			},
+			ddoc:    "foo",
+			update:  "bar",
+			options: testOptions,
+			expected: &Rows{
+				iter: &iter{
+					feed: &rowsIterator{
+						Rows: &mock.Rows{ID: "a"},
+					},
+					curVal: &driver.Row{},
+				},
+				rowsi: &mock.Rows{ID: "a"},
+			},
+		},
+	}
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			result, err := test.db.Update(context.Background(), test.ddoc, test.update, test.options)
+			testy.StatusError(t, test.err, test.status, err)
+			result.cancel = nil // Determinism
+			if d := diff.Interface(test.expected, result); d != nil {
+				t.Error(d)
+			}
+		})
+	}
+}
+
 func TestGet(t *testing.T) {
 	tests := []struct {
 		name     string

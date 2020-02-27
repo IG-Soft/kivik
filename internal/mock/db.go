@@ -26,6 +26,7 @@ type DB struct {
 	GetAttachmentFunc    func(ctx context.Context, docID, filename string, options map[string]interface{}) (*driver.Attachment, error)
 	DeleteAttachmentFunc func(ctx context.Context, docID, rev, filename string, options map[string]interface{}) (newRev string, err error)
 	QueryFunc            func(context.Context, string, string, map[string]interface{}) (driver.Rows, error)
+	UpdateFunc           func(context.Context, string, string, map[string]interface{}) (driver.Rows, error)
 }
 
 var _ driver.DB = &DB{}
@@ -108,6 +109,11 @@ func (db *DB) DeleteAttachment(ctx context.Context, docID, rev, filename string,
 // Query calls db.QueryFunc
 func (db *DB) Query(ctx context.Context, ddoc, view string, opts map[string]interface{}) (driver.Rows, error) {
 	return db.QueryFunc(ctx, ddoc, view, opts)
+}
+
+// Update calls db.UpdateFunc
+func (db *DB) Update(ctx context.Context, ddoc, update string, opts map[string]interface{}) (driver.Rows, error) {
+	return db.UpdateFunc(ctx, ddoc, update, opts)
 }
 
 // Finder mocks a driver.DB and driver.Finder
