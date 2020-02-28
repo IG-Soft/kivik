@@ -2,4 +2,4 @@
 // used by package kivik.
 //
 // Most code should use package kivik.
-package driver // import "github.com/go-kivik/kivik/v3/driver"
+package driver // import "github.com/IG-Soft/kivik/v3/driver"

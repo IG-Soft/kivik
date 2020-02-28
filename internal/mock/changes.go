@@ -1,6 +1,6 @@
 package mock
 
-import "github.com/go-kivik/kivik/v3/driver"
+import "github.com/IG-Soft/kivik/v3/driver"
 
 // Changes mocks driver.Changes
 type Changes struct {

@@ -56,7 +56,7 @@ gopherjs-1.12:
     <<: *test_template
     image: golang:1.13
     variables:
-      SRCDIR: /go/src/github.com/go-kivik/kivik/v3
+      SRCDIR: /go/src/github.com/IG-Soft/kivik/v3
     script:
         - go get golang.org/dl/go1.12.16
         - go1.12.16 download

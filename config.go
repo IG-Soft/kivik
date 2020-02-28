@@ -4,7 +4,7 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/go-kivik/kivik/v3/driver"
+	"github.com/IG-Soft/kivik/v3/driver"
 )
 
 // Config represents all the config sections.

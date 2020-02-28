@@ -4,7 +4,7 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/go-kivik/kivik/v3/driver"
+	"github.com/IG-Soft/kivik/v3/driver"
 )
 
 var clusterNotImplemented = &Error{HTTPStatus: http.StatusNotImplemented, Message: "kivik: driver does not support cluster operations"}

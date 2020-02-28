@@ -10,8 +10,8 @@ import (
 	"github.com/flimzy/diff"
 	"github.com/flimzy/testy"
 
-	"github.com/go-kivik/kivik/v3/driver"
-	"github.com/go-kivik/kivik/v3/internal/mock"
+	"github.com/IG-Soft/kivik/v3/driver"
+	"github.com/IG-Soft/kivik/v3/internal/mock"
 )
 
 func TestNew(t *testing.T) {

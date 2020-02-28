@@ -1,4 +1,4 @@
-[![Build Status](https://gitlab.com/go-kivik/kivik/badges/master/pipeline.svg)](https://gitlab.com/go-kivik/kivik/pipelines) [![Codecov](https://img.shields.io/codecov/c/github/go-kivik/kivik.svg?style=flat)](https://codecov.io/gh/go-kivik/kivik) [![Go Report Card](https://goreportcard.com/badge/github.com/go-kivik/kivik)](https://goreportcard.com/report/github.com/go-kivik/kivik) [![GoDoc](https://godoc.org/github.com/go-kivik/kivik?status.svg)](http://godoc.org/github.com/go-kivik/kivik) [![Website](https://img.shields.io/website-up-down-green-red/http/kivik.io.svg?label=website&colorB=007fff)](http://kivik.io)
+[![Build Status](https://gitlab.com/go-kivik/kivik/badges/master/pipeline.svg)](https://gitlab.com/go-kivik/kivik/pipelines) [![Codecov](https://img.shields.io/codecov/c/github/go-kivik/kivik.svg?style=flat)](https://codecov.io/gh/go-kivik/kivik) [![Go Report Card](https://goreportcard.com/badge/github.com/IG-Soft/kivik)](https://goreportcard.com/report/github.com/IG-Soft/kivik) [![GoDoc](https://godoc.org/github.com/IG-Soft/kivik?status.svg)](http://godoc.org/github.com/IG-Soft/kivik) [![Website](https://img.shields.io/website-up-down-green-red/http/kivik.io.svg?label=website&colorB=007fff)](http://kivik.io)
 
 # Kivik
 
@@ -14,7 +14,7 @@ implemented by SQL and NoSQL databases such as CouchDB.
 # Versions
 
 You are browsing the **stable v3** branch of Kivik. For the latest changes, you
-may be interested in the [development branch](https://github.com/go-kivik/kivik).
+may be interested in the [development branch](https://github.com/IG-Soft/kivik).
 
 Example configuration for common dependency managers follow.
 
@@ -22,24 +22,24 @@ Example configuration for common dependency managers follow.
 
 Kivik 3.x and later depends on Go modules, which requires Go 1.11 or later. If
 your project does not use modules, and you are unable to switch, you may use
-[Kivik 2.x](https://github.com/go-kivik/kivik/tree/v2).
+[Kivik 2.x](https://github.com/IG-Soft/kivik/tree/v2).
 
 # Installation
 
 Install Kivik as you normally would for any Go package:
 
-    go get -u github.com/go-kivik/kivik/v3
+    go get -u github.com/IG-Soft/kivik/v3
     go get -u github.com/go-kivik/couchdb/v3
 
 This will install the main Kivik package and the CouchDB database driver. See
-the [list of Kivik database drivers](https://github.com/go-kivik/kivik/wiki/Kivik-database-drivers)
+the [list of Kivik database drivers](https://github.com/IG-Soft/kivik/wiki/Kivik-database-drivers)
 for a complete list of available drivers.
 
 # Example Usage
 
-Please consult the the [package documentation](https://godoc.org/github.com/go-kivik/kivik)
+Please consult the the [package documentation](https://godoc.org/github.com/IG-Soft/kivik)
 for all available API methods, and a complete usage documentation.  And for
-additional usage examples, [consult the wiki](https://github.com/go-kivik/kivik/wiki/Usage-Examples).
+additional usage examples, [consult the wiki](https://github.com/IG-Soft/kivik/wiki/Usage-Examples).
 
 ```go
 package main
@@ -48,7 +48,7 @@ import (
     "context"
     "fmt"
 
-    kivik "github.com/go-kivik/kivik/v3"
+    kivik "github.com/IG-Soft/kivik/v3"
     _ "github.com/go-kivik/couchdb/v3" // The CouchDB driver
 )
 
@@ -84,7 +84,7 @@ Nobody has ever asked me any of these questions, so they're probably better call
 
 ## Why another CouchDB client API?
 
-Read the [design goals](https://github.com/go-kivik/kivik/wiki/Design-goals) for
+Read the [design goals](https://github.com/IG-Soft/kivik/wiki/Design-goals) for
 the general design goals.
 
 Specifically, I was motivated to write Kivik for a few reasons:
@@ -136,7 +136,7 @@ If you discover a bug affecting any of these supported environments, please let
 me know by submitting a bug report via GitHub.
 
 - **Go** Kivik 3.x aims for full compatibility with all stable releases of Go
-  from 1.9. For Go 1.7 or 1.8 you can use [Kivik 1.x](https://github.com/go-kivik/kivik/tree/v1)
+  from 1.9. For Go 1.7 or 1.8 you can use [Kivik 1.x](https://github.com/IG-Soft/kivik/tree/v1)
 - **CouchDB** The Kivik 3.x CouchDB driver aims for compatibility with all
   stable releases of CouchDB from 1.6.1.
 - **GopherJS** GopherJS always requires the latest stable version of Go, so
@@ -154,7 +154,7 @@ testing without a real CouchDB server easier. Then I will work on completing
 the 'serve' mode.
 
 You can see a complete overview of the current status on the
-[Compatibility chart](https://github.com/go-kivik/kivik/blob/master/doc/COMPATIBILITY.md)
+[Compatibility chart](https://github.com/IG-Soft/kivik/blob/master/doc/COMPATIBILITY.md)
 
 ## Why the name "Kivik"?
 
