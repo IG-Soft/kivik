@@ -102,17 +102,17 @@ func (db *DB) Query(ctx context.Context, ddoc, view string, options ...Options) 
 // Update executes the specified update function from the specified design
 // document. ddoc and update may or may not be be prefixed with '_design/'
 // and '_update/' respectively. No other
-func (db *DB) Update(ctx context.Context, ddoc, update string, options ...Options) (*Rows, error) {
+func (db *DB) Update(ctx context.Context, ddoc, updateFunc, docID, update string, ret interface{}, options ...Options) (interface{}, error) {
 	if db.err != nil {
 		return nil, db.err
 	}
 	ddoc = strings.TrimPrefix(ddoc, "_design/")
 	update = strings.TrimPrefix(update, "_update/")
-	rowsi, err := db.driverDB.Update(ctx, ddoc, update, mergeOptions(options...))
+	ret, err := db.driverDB.Update(ctx, ddoc, updateFunc, docID, update, ret, mergeOptions(options...))
 	if err != nil {
 		return nil, err
 	}
-	return newRows(ctx, rowsi), nil
+	return ret, nil
 }
 
 // Row contains the result of calling Get for a single document. For most uses,

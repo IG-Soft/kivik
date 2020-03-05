@@ -184,7 +184,7 @@ type DB interface {
 	// Update performs a post against an update, subject to the options provided.
 	// ddoc will be the design doc name without the '_design/' prefix.
 	// update will be the update function name without the '_update/' prefix.
-	Update(ctx context.Context, ddoc, update string, options map[string]interface{}) (Rows, error)
+	Update(ctx context.Context, ddoc, updateFunc, docID, update string, ret interface{}, options map[string]interface{}) (interface{}, error)
 }
 
 // Document represents a single document returned by Get
